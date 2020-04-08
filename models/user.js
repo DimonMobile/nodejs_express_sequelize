@@ -8,16 +8,23 @@ let user = db.define('user', {
     },
     nick: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
     },
     email: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
     },
     password: {
         type: Sequelize.STRING,
         allowNull: false
     }
+}, {
+    indexes: [
+        {
+            unique: true,
+            fields: ['email']
+        }
+    ]
 });
 
 module.exports = user;

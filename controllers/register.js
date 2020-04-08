@@ -1,15 +1,17 @@
 const User = require('../models/user');
+const crypto = require('crypto')
 
 exports.getRegistrationPage = function(req, res, next) {
     res.render('register', {title: 'Sign In'});
 }
 
-exports.postRegistrationPage = function(req, res, next) {
+exports.postRegistrationPage = async function(req, res, next) {
     let messages = []
     let email = req.body.email;
     let nick = req.body.nick;
     let password = req.body.password;
     let repeatPassword = req.body.repeatPassword;
+
 
     if (password != repeatPassword) {
         messages.push('Your passwords are different, try again');
@@ -21,10 +23,21 @@ exports.postRegistrationPage = function(req, res, next) {
         messages.push('Invalid nickname length');
     }
 
+    try {
+        let user = await User.findOne({where: {email: email}});
+        if (user != null) {
+            throw new Error('User with this email already exists!');
+        }
+
+        let hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+
+        User.create({nick: nick, email: email, password: hashedPassword})
+    } catch (err) {
+        messages.push(err.message);
+    }
+
     if (messages.length === 0) { // no errors
         messages.push("You've created an account!");
     }
-
-    await User.create({nick: nick, email: email, password: password});
     res.render('register', {title: 'Sign in', messages: messages});
 }
