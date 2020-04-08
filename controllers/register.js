@@ -31,7 +31,7 @@ exports.postRegistrationPage = async function(req, res, next) {
 
         let hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
-        User.create({nick: nick, email: email, password: hashedPassword})
+        await User.create({nick: nick, email: email, password: hashedPassword})
     } catch (err) {
         messages.push(err.message);
     }
