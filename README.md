@@ -3,7 +3,9 @@ BSTU
 
 Install packages
 > npm install
+
 Create database
 > npm migrate
+
 Run
 > npm start
