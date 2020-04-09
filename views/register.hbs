@@ -1,18 +1,18 @@
 <div class="row">
     <!--Sign in form-->
-    <form class="col m12 l6">
+    <form class="col m12 l6" action="/signin" method="post">
         <div class="section">
             <h5>Sign In</h5>
         </div>
         <div class="input-field col s12">
-            <input id="email-input-signin" type="email"/>
+            <input id="email-input-signin" type="email" name="email"/>
             <label for="email-input-signin">Email</label>
         </div>
         <div class="input-field col s12">
-            <input id="password-input-signin" type="password"/>
+            <input id="password-input-signin" type="password" name="password"/>
             <label for="password-input-signin">Password</label>
         </div>
-        <input class="btn waves-effect waves-light" type="submit" value="Sign In"/>
+        <button class="btn waves-effect waves-light" type="submit">Sign In</button>
     </form>
     <div class="divider"></div>
     <!--Sign up form-->

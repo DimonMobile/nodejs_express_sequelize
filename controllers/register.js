@@ -2,13 +2,13 @@ const User = require('../models/user');
 const crypto = require('crypto')
 
 exports.getRegistrationPage = function(req, res, next) {
-    res.render('register', {title: 'Sign In'});
+    res.render('register', { title: 'Sign In' });
 }
 
 exports.postRegistrationPage = async function(req, res, next) {
     let messages = []
-    let email = req.body.email;
-    let nick = req.body.nick;
+    let email = req.body.email.toLowerCase().trim();
+    let nick = req.body.nick.trim();
     let password = req.body.password;
     let repeatPassword = req.body.repeatPassword;
 
@@ -24,14 +24,14 @@ exports.postRegistrationPage = async function(req, res, next) {
     }
 
     try {
-        let user = await User.findOne({where: {email: email}});
+        let user = await User.findOne({ where: { email: email } });
         if (user != null) {
             throw new Error('User with this email already exists!');
         }
 
         let hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
-        await User.create({nick: nick, email: email, password: hashedPassword})
+        await User.create({ nick: nick, email: email, password: hashedPassword })
     } catch (err) {
         messages.push(err.message);
     }
@@ -39,5 +39,5 @@ exports.postRegistrationPage = async function(req, res, next) {
     if (messages.length === 0) { // no errors
         messages.push("You've created an account!");
     }
-    res.render('register', {title: 'Sign in', messages: messages});
+    res.render('register', { title: 'Sign in', messages: messages });
 }

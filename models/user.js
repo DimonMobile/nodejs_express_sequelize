@@ -17,14 +17,17 @@ let user = db.define('user', {
     password: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    level: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 1
     }
 }, {
-    indexes: [
-        {
-            unique: true,
-            fields: ['email']
-        }
-    ]
+    indexes: [{
+        unique: true,
+        fields: ['email']
+    }]
 });
 
 module.exports = user;
