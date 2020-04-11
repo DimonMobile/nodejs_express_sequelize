@@ -14,26 +14,56 @@
 <body>
     <header>
         <nav>
-            <div class="nav-wrapper">
+            <div class="nav-wrapper teal">
                 <a href="/" class="brand-logo waves-effect waves-light">News</a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger waves-effect waves-light">
                     <i class="material-icons">menu</i>
                 </a>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="/" class="waves-effect waves-light">Feed</a></li>
+                    {{#unless req.session.userId}}
                     <li><a href="/register" class="waves-effect waves-light">Sign In</a></li>
+                    {{else}}
+                    <li>
+                        <a href="#!" class="waves-effect waves-light tooltipped" data-position="bottom"
+                            data-tooltip="{{req.session.userNickname}}">
+                            <img class="circle" width="40" style="vertical-align: middle;" height="40"
+                                src="{{req.session.userAvatar}}" />
+                        </a>
+                    </li>
+                    {{/unless}}
                 </ul>
             </div>
         </nav>
         <ul class="sidenav" id="mobile-demo">
-            <li><a href="/" class="waves-effect">Feed</a></li>
+            {{#unless req.session.userId}}
             <li><a href="/register" class="waves-effect">Sign In</a></li>
+            {{else}}
+            <li>
+                <div class="user-view">
+                    <div class="background">
+                        <img src="/public/images/material-bg.jpg">
+                    </div>
+                    <a href="#user"><img class="circle" src="{{req.session.userAvatar}}"></a>
+                    <a href="#name"><span class="white-text name">{{req.session.userNickname}}</span></a>
+                    <a href="#email"><span class="white-text email">{{req.session.userEmail}}</span></a>
+                </div>
+            </li>
+            <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+            <li><a href="#!">Second Link</a></li>
+            <li><a href="/" class="waves-effect">Feed</a></li>
+            <li>
+                <div class="divider"></div>
+            </li>
+            <li><a class="subheader">Subheader</a></li>
+            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+            {{/unless}}
         </ul>
     </header>
     <main class="container">
         {{{body}}}
     </main>
-    <footer class="page-footer">
+    <footer class="page-footer teal">
         <div class="container">
             <div class="row">
                 <h5 class="white-text">BSTU node.js express server</h5>
@@ -51,7 +81,7 @@
     </script>
     {{#each messages}}
     <script>
-        M.toast({html: '{{this}}'});
+        M.toast({ html: '{{this}}' });
     </script>
     {{/each}}
 </body>

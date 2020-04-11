@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const exphbs = require('express-handlebars').create({extname: 'hbs'});
 const router = require('./routes/main').router;
 
@@ -8,6 +9,7 @@ const HOST_PROTO = 'http';
 const HOST_PORT = 3000;
 const HOST_ADDRESS = 'localhost';
 
+app.use(session({secret: 'mega secret'}));
 app.use('/public', express.static('static'));
 app.use(express.urlencoded({extended: false}));
 

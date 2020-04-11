@@ -1,3 +1,3 @@
 exports.getMainPage = function(req, res, next) {
-    res.render('index', {title: 'Main'});
+    res.render('index', {title: 'Main', req: req, res: res});
 }
