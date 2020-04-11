@@ -25,7 +25,7 @@
                     <li><a href="/register" class="waves-effect waves-light">Sign In</a></li>
                     {{else}}
                     <li>
-                        <a href="#!" class="waves-effect waves-light tooltipped" data-position="bottom"
+                        <a href="/users?id={{req.session.userId}}" class="waves-effect waves-light tooltipped" data-position="bottom"
                             data-tooltip="{{req.session.userNickname}}">
                             <img class="circle" width="40" style="vertical-align: middle;" height="40"
                                 src="{{req.session.userAvatar}}" />
@@ -44,9 +44,9 @@
                     <div class="background">
                         <img src="/public/images/material-bg.jpg">
                     </div>
-                    <a href="#user"><img class="circle" src="{{req.session.userAvatar}}"></a>
-                    <a href="#name"><span class="white-text name">{{req.session.userNickname}}</span></a>
-                    <a href="#email"><span class="white-text email">{{req.session.userEmail}}</span></a>
+                    <a href="/users?id={{req.session.userId}}"><img class="circle" src="{{req.session.userAvatar}}"></a>
+                    <a href="/users?id={{req.session.userId}}"><span class="white-text name">{{req.session.userNickname}}</span></a>
+                    <a href="/users?id={{req.session.userId}}"><span class="white-text email">{{req.session.userEmail}}</span></a>
                 </div>
             </li>
             <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>

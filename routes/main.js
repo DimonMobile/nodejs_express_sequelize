@@ -8,4 +8,7 @@ router.use('/register', registerRouter);
 const signinRouter = require('./signin').router;
 router.use('/signin', signinRouter);
 
+const usersRouter = require('./users').router;
+router.use('/users', usersRouter);
+
 exports.router = router;
