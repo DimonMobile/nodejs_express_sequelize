@@ -1,1 +1,3 @@
 node_modules/
+static/avatars/
+db.sqlite
