@@ -11,4 +11,7 @@ router.use('/signin', signinRouter);
 const usersRouter = require('./users').router;
 router.use('/users', usersRouter);
 
+const publicationsRouter = require('./publications').router;
+router.use('/publications', publicationsRouter);
+
 exports.router = router;

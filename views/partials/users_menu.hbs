@@ -1,0 +1,10 @@
+<div class="collection" id="users_menu">
+    <a href="/users/profile?id={{user.id}}" class="collection-item waves-effect">Profile</a>
+    <a href="/users/publications?id={{user.id}}" class="collection-item waves-effect">Publications</a>
+    <a href="#!" class="collection-item waves-effect">Messages</a>
+    <a href="#" class="collection-item purple-text text-darken-4 waves-effect">Administration</a>
+    {{#if isOwner}}
+    <a href="#" class="collection-item red-text waves-effect">Logout</a>
+    {{/if}}
+</div>
+<script src="/public/js/users_menu_activator.js"></script>

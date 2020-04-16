@@ -1,14 +1,8 @@
 <div class="row">
     <div class="col s12 l4">
-        <div class="collection">
-            <a href="#!" class="collection-item active waves-effect">Profile</a>
-            <a href="#" class="collection-item waves-effect">Publications</a>
-            <a href="#!" class="collection-item waves-effect">Messages</a>
-            <a href="#" class="collection-item purple-text text-darken-4 waves-effect">Administration</a>
-            {{#if isOwner}}
-            <a href="#" class="collection-item red-text waves-effect">Logout</a>
-            {{/if}}
-        </div>
+        {{!-- Must contain value the same to menu item --}}
+        <input type="hidden" id="users_menu_caption" value="Profile">
+        {{>users_menu}}
     </div>
     <div class="col s12 l8">
         {{#if user}}

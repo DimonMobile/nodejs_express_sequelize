@@ -25,8 +25,8 @@
                     <li><a href="/register" class="waves-effect waves-light">Sign In</a></li>
                     {{else}}
                     <li>
-                        <a href="/users/profile?id={{req.session.userId}}" class="waves-effect waves-light tooltipped" data-position="bottom"
-                            data-tooltip="{{req.session.userNickname}}">
+                        <a href="/users/profile?id={{req.session.userId}}" class="waves-effect waves-light tooltipped"
+                            data-position="bottom" data-tooltip="{{req.session.userNickname}}">
                             <img class="circle" width="40" style="vertical-align: middle;" height="40"
                                 src="{{req.session.userAvatar}}" />
                         </a>
@@ -44,9 +44,12 @@
                     <div class="background">
                         <img src="/public/images/material-bg.jpg">
                     </div>
-                    <a href="/users/profile?id={{req.session.userId}}"><img class="circle" src="{{req.session.userAvatar}}"></a>
-                    <a href="/users/profile?id={{req.session.userId}}"><span class="white-text name">{{req.session.userNickname}}</span></a>
-                    <a href="/users/profile?id={{req.session.userId}}"><span class="white-text email">{{req.session.userEmail}}</span></a>
+                    <a href="/users/profile?id={{req.session.userId}}"><img class="circle"
+                            src="{{req.session.userAvatar}}"></a>
+                    <a href="/users/profile?id={{req.session.userId}}"><span
+                            class="white-text name">{{req.session.userNickname}}</span></a>
+                    <a href="/users/profile?id={{req.session.userId}}"><span
+                            class="white-text email">{{req.session.userEmail}}</span></a>
                 </div>
             </li>
             <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
@@ -75,6 +78,22 @@
             </div>
         </div>
     </footer>
+
+    {{#if req.session.userId}}
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large red waves-effect waves-light tooltipped" data-position="left" data-tooltip="Fast actions and links">
+            <i class="large material-icons">call_to_action</i>
+        </a>
+        <ul>
+            <li><a class="btn-floating red waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">insert_chart</i></a></li>
+            <li><a class="btn-floating yellow darken-1 waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">format_quote</i></a></li>
+            <li><a class="btn-floating green waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">publish</i></a></li>
+            <li><a class="btn-floating blue waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">attach_file</i></a></li>
+            <li><a class="btn-floating brown waves-effect waves-light tooltipped" data-position="left" data-tooltip="Create new publication" href="/publications/new"><i class="material-icons">mode_edit</i></a></li>
+        </ul>
+    </div>
+    {{/if}}
+
     <script type="text/javascript" src="/public/js/materialize.min.js"></script>
     <script>
         M.AutoInit();
@@ -84,6 +103,7 @@
         M.toast({ html: '{{this}}' });
     </script>
     {{/each}}
+
 </body>
 
 </html>
