@@ -1,4 +1,9 @@
 let preloaderElement = document.getElementById("draft_preloader");
+let newPublicationNameElement = document.getElementById('new_publication_input');
+let autosaveCheckboxElement = document.getElementById('publication_draft_autosave');
+let publicationContentTextareaElement = document.getElementById('publication_content_textarea');
+let draftSaveBtnElement = document.getElementById('publication_draft_save');
+
 
 function enableDraftPreloader(enable = true) {
     if (!enable) {
@@ -7,8 +12,6 @@ function enableDraftPreloader(enable = true) {
         preloaderElement.classList.remove('hidden');
     }
 }
-
-let autosaveCheckboxElement = document.getElementById('publication_draft_autosave');
 
 function autoSaveDraft() {
     if (autosaveCheckboxElement.checked === true) {
@@ -20,27 +23,28 @@ function autoSaveDraft() {
 }
 
 function saveDraft() {
-    // TODO: implement
     console.log('Saving triggered');
     enableDraftPreloader();
+
+    // TODO: send it!
+    const searchParams = new URLSearchParams();
+    searchParams.set("name", newPublicationNameElement.value);
+    searchParams.set("content", publicationContentTextareaElement.value);
+    console.log(searchParams.toString());
+
     setTimeout(() => {
         enableDraftPreloader(false);
     }, 1000);
 }
 
-
-let newPublicationNameElement = document.getElementById('new_publication_input');
 newPublicationNameElement.addEventListener('change', (event) => {
     autoSaveDraft();
 });
 
-
-let publicationContentTextareaElement = document.getElementById('publication_content_textarea');
 publicationContentTextareaElement.addEventListener('change', (event) => {
     autoSaveDraft();
 });
 
-let draftSaveBtnElement = document.getElementById('publication_draft_save');
 draftSaveBtnElement.addEventListener('click', (event) => {
     saveDraft();
 });

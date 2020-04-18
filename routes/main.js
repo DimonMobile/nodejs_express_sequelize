@@ -15,4 +15,7 @@ router.use('/users', usersRouter);
 const publicationsRouter = require('./publications').router;
 router.use('/publications', publicationsRouter);
 
+const restDraftsRouter = require('./rest_drafts').router;
+router.use('/api/drafts', restDraftsRouter);
+
 exports.router = router;
