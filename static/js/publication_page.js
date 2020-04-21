@@ -32,9 +32,14 @@ function saveDraft() {
     searchParams.set("content", publicationContentTextareaElement.value);
     console.log(searchParams.toString());
 
-    setTimeout(() => {
+    let formElement = document.getElementById("newpost-form");
+    let formData = new URLSearchParams(new FormData(formElement)).toString();
+    let request = new XMLHttpRequest();
+    request.open('POST', '/api/drafts');
+    request.addEventListener('loadend', (event) => {
         enableDraftPreloader(false);
-    }, 1000);
+    });
+    request.send(formData);
 }
 
 newPublicationNameElement.addEventListener('change', (event) => {

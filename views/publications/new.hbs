@@ -5,7 +5,8 @@
 <div id="test-swipe-1">
   <div class="row valign-wrapper blue lighten-5">
     <div class="col l4">
-      <button id="publication_draft_save" class="btn-flat waves-effect"><i class="material-icons left">cloud</i>Save draft</button>
+      <button id="publication_draft_save" class="btn-flat waves-effect"><i class="material-icons left">cloud</i>Save
+        draft</button>
     </div>
     <div class="col l3">
       <button class="btn-flat waves-effect"><i class="material-icons left">list</i>Drafts</button>
@@ -20,18 +21,21 @@
       {{>preloader preloader_size="small" preloader_id="draft_preloader"}}
     </div>
   </div>
-  <div class="col s12">
-    <div class="input-field">
-      <input id="new_publication_input" type="text" class="validate" value="My new publication">
-      <label for="new_publication_input">Publication name</label>
+  <form id="newpost-form" action="/" method="post">
+    <div class="col s12">
+      <div class="input-field">
+        <input id="new_publication_input" name="name" type="text" class="validate" value="My new publication">
+        <label for="new_publication_input">Publication name</label>
+      </div>
     </div>
-  </div>
-  <div class="col s12">
-    <div class="input-field">
-      <textarea id="publication_content_textarea" class="materialize-textarea" data-length="120"></textarea>
-      <label for="publication_content_textarea">Textarea</label>
+    <div class="col s12">
+      <div class="input-field">
+        <textarea id="publication_content_textarea" name="content" class="materialize-textarea" data-length="120"></textarea>
+        <label for="publication_content_textarea">Textarea</label>
+      </div>
     </div>
-  </div>
+    <input type="hidden" name="uuid" value="{{uuid}}"/>
+  </form>
 </div>
 <div class="row" id="test-swipe-3">
   <div class="col s12 green">Test 3</div>
