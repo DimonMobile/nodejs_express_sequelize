@@ -4,7 +4,11 @@ const db = require('../config/db');
 let publication_draft = db.define('publication_draft', {
     id: {
         type: Sequelize.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
+    },
+    uuid: {
+        type: Sequelize.UUIDV4
     },
     title: {
         type: Sequelize.STRING,
@@ -15,8 +19,11 @@ let publication_draft = db.define('publication_draft', {
     },
 }, {
     indexes: [{
+        unique: false,
+        fields: ['userId'] // foreign key
+    }, {
         unique: true,
-        fields: ['userId']
+        fields: ['uuid']
     }]
 });
 

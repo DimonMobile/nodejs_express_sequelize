@@ -5,11 +5,13 @@
 <div id="test-swipe-1">
   <div class="row valign-wrapper blue lighten-5">
     <div class="col l4">
-      <button id="publication_draft_save" class="btn-flat waves-effect"><i class="material-icons left">cloud</i>Save
-        draft</button>
+      <button id="publication_draft_save" class="btn-flat waves-effect">
+        <i class="material-icons left">cloud</i>Save draft
+      </button>
     </div>
     <div class="col l3">
-      <button class="btn-flat waves-effect"><i class="material-icons left">list</i>Drafts</button>
+      <button id="drafts_list_btn" class="btn-flat waves-effect modal-trigger" href="#draft_list_modal"><i
+          class="material-icons left">list</i>Drafts</button>
     </div>
     <div class="col l3">
       <label>
@@ -24,20 +26,51 @@
   <form id="newpost-form" action="/" method="post">
     <div class="col s12">
       <div class="input-field">
-        <input id="new_publication_input" name="name" type="text" class="validate" value="My new publication">
+        <input id="new_publication_input" name="title" type="text" class="validate" value="{{publicationTitle}}">
         <label for="new_publication_input">Publication name</label>
       </div>
     </div>
     <div class="col s12">
       <div class="input-field">
-        <textarea id="publication_content_textarea" name="content" class="materialize-textarea" data-length="120"></textarea>
-        <label for="publication_content_textarea">Textarea</label>
+        <textarea id="publication_content_textarea" name="content" class="materialize-textarea"
+          data-length="120">{{publicationContent}}</textarea>
+        <label for="publication_content_textarea">Markdown content</label>
       </div>
     </div>
-    <input type="hidden" name="uuid" value="{{uuid}}"/>
+    <input type="hidden" name="uuid" value="{{uuid}}" />
   </form>
+  {{#if isDraft}}
+  <div class="row">
+    <div class="col s12">
+      <blockquote>You are editing your draft, you can <a href="/publications/new">create new</a></blockquote>
+    </div>
+  </div>
+  {{/if}}
 </div>
 <div class="row" id="test-swipe-3">
   <div class="col s12 green">Test 3</div>
 </div>
+
+<!-- Modals -->
+<div id="draft_list_modal" class="modal">
+  <div class="modal-content">
+    <h4>My drafts</h4>
+    <div class="input-field">
+      <input id="draft_list_search" type="text">
+      <label for="draft_list_search">Draft name/uuid</label>
+    </div>
+    {{>preloader preloader_size="large" preloader_id="draft_list_preloader"}}
+    <ul id="draft_list_collection" class="collection">
+      {{!-- <li class="collection-item" href="#">
+        <a href="#">Alvin</a>
+        <a href="#!" class="secondary-content"><i class="material-icons">delete_forever</i></a>
+        <a href="#!" class="secondary-content"><i class="material-icons">open_in_browser</i></a>
+      </li> --}}
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+  </div>
+</div>
+
 <script src="/public/js/publication_page.js"></script>

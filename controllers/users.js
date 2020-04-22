@@ -1,4 +1,5 @@
-const User = require('../models/user');
+const Models = require('../models/all');
+const User = Models.User;
 
 exports.getProfilePage = async function(req, res, next) {
     let user = await User.findOne({where: {id: req.query.id}});

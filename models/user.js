@@ -4,7 +4,8 @@ const db = require('../config/db');
 let user = db.define('user', {
     id: {
         type: Sequelize.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true
     },
     nick: {
         type: Sequelize.STRING,

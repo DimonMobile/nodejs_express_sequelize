@@ -1,4 +1,5 @@
-const User = require('../models/user');
+const Models = require('../models/all');
+const User = Models.User;
 const crypto = require('crypto')
 
 exports.getRegistrationPage = function(req, res, next) {
@@ -23,7 +24,6 @@ exports.postRegistrationPage = async function(req, res, next) {
     }
 
     try {
-
         let user = await User.findOne({ where: { email: email } });
         if (user != null) {
             throw new Error('User with this email already exists!');

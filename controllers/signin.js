@@ -1,5 +1,6 @@
 const crypto = require('crypto');
-const User = require('../models/user');
+const Models = require('../models/all');
+const User = Models.User;
 
 exports.signIn = async function(req, res, next) {
     let email = req.body.email.toLowerCase().trim();
