@@ -40,16 +40,30 @@
     </div>
     <input type="hidden" name="uuid" value="{{uuid}}" />
   </form>
-  {{#if isDraft}}
-  <div class="row">
-    <div class="col s12">
+
+  <div class="row valign-wrapper">
+    <div class="col s12 l5">
+      <button id="upload_picture_btn" class="btn btn-flat file-field">
+        Upload picture
+        <input id="upload_picture" type="file"/>
+      </button>
+      <button class="btn waves-effect waves-light">Publish</button>
+    </div>
+    {{#if isDraft}}
+    <div class="col s12 l7">
       <blockquote>You are editing your draft, you can <a href="/publications/new">create new</a></blockquote>
     </div>
+    {{/if}}
   </div>
-  {{/if}}
+  <div class="row">
+    <div class="col s12 progress">
+      <div id="upload_progress"></div>
+    </div>
+  </div>
+
 </div>
 <div class="row" id="test-swipe-3">
-  <div class="col s12 green" id="draft_preview">
+  <div class="col s12 green lighten-5" id="draft_preview">
   </div>
 </div>
 

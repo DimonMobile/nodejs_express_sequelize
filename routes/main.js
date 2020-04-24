@@ -18,4 +18,7 @@ router.use('/publications', publicationsRouter);
 const restDraftsRouter = require('./rest_drafts').router;
 router.use('/api/drafts', restDraftsRouter);
 
+const imagesRouter = require('./images').router;
+router.use('/images', imagesRouter);
+
 exports.router = router;

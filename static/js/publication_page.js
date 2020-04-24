@@ -7,6 +7,9 @@ let draftsListBtnElement = document.getElementById('drafts_list_btn');
 let draftListPreloaderElement = document.getElementById('draft_list_preloader');
 let draftListCollectionElement = document.getElementById('draft_list_collection');
 let draftPreviewElement = document.getElementById('draft_preview');
+let draftUploadPictureElement = document.getElementById('upload_picture');
+let draftUploadPictureBtnElement = document.getElementById('upload_picture_btn');
+let uploadProgressElement = document.getElementById('upload_progress');
 
 function deleteDraft(uuid) {
     console.log(`Delete ${uuid}`);
@@ -115,6 +118,84 @@ publicationContentTextareaElement.addEventListener('change', (event) => {
 
 draftSaveBtnElement.addEventListener('click', (event) => {
     saveDraft();
+});
+
+function uploadProgressSetIndeterminate() {
+    uploadProgressElement.classList.remove('determinate');
+    uploadProgressElement.classList.add('indeterminate');
+}
+
+function uploadProgressSetDeterminate(progress) {
+    uploadProgressElement.classList.remove('indeterminate');
+    uploadProgressElement.classList.add('determinate');
+    uploadProgressElement.style = `width: ${progress}%`;
+}
+
+function enableControls(enable) {
+    elements = [
+        draftSaveBtnElement,
+        draftsListBtnElement,
+        draftUploadPictureBtnElement
+    ]
+
+    let disableClassName = 'disabled';
+    for (let currentElement of elements) {
+        if (enable) {
+            currentElement.classList.remove(disableClassName);
+        } else {
+            currentElement.classList.add(disableClassName);
+        }
+    }
+}
+
+draftUploadPictureElement.addEventListener('change', (event) => {
+    let file = draftUploadPictureElement.files[0];
+    if (file.size > 0) { // can start uploading
+        enableControls(false);
+
+        let formData = new FormData();
+        formData.append('picture', file);
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/images');
+
+        xhr.upload.addEventListener('loadstart', e => {
+            console.log(`loadstart: ${e}`);
+        });
+
+        xhr.upload.addEventListener('progress', e => {
+            if (e.lengthComputable) {
+                let percents = (e.loaded / e.total) * 100;
+                console.log(percents);
+                uploadProgressSetDeterminate(percents);
+            } else {
+                uploadProgressSetIndeterminate();
+            }
+        });
+
+        xhr.upload.addEventListener('loadend', e => {
+            console.log(`loadend: ${e}`);
+        });
+
+
+        xhr.upload.addEventListener('error', e => {
+            console.log(`error: ${e}`);
+        });
+
+        xhr.addEventListener('load', e => {
+            M.toast({html: 'load'});
+        });
+
+        xhr.addEventListener('error', e => {
+            M.toast({html: 'error'});
+        });
+
+        xhr.addEventListener('loadend', e => {
+            enableControls(true);
+            M.toast({html: 'loadend'});
+        });
+
+        xhr.send(formData);
+    }
 });
 
 // Save draft every 10 seconds
