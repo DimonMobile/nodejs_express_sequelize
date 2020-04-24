@@ -6,6 +6,7 @@ let draftSaveBtnElement = document.getElementById('publication_draft_save');
 let draftsListBtnElement = document.getElementById('drafts_list_btn');
 let draftListPreloaderElement = document.getElementById('draft_list_preloader');
 let draftListCollectionElement = document.getElementById('draft_list_collection');
+let draftPreviewElement = document.getElementById('draft_preview');
 
 function deleteDraft(uuid) {
     console.log(`Delete ${uuid}`);
@@ -108,6 +109,8 @@ newPublicationNameElement.addEventListener('change', (event) => {
 
 publicationContentTextareaElement.addEventListener('change', (event) => {
     autoSaveDraft();
+    let contentText = publicationContentTextareaElement.value;
+    draftPreviewElement.innerHTML = markdown.toHTML(contentText);
 });
 
 draftSaveBtnElement.addEventListener('click', (event) => {
