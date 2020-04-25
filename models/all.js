@@ -15,3 +15,4 @@ Publication.belongsTo(User);
 
 exports.PublicationDraft = PublicationDraft;
 exports.User = User;
+exports.Publication = Publication;

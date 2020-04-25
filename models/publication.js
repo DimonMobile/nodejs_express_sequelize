@@ -27,7 +27,7 @@ let model = db.define('publication', {
     }
 }, {
     indexes: [{
-        unique: true,
+        unique: false,
         fields: ['userId']
     }]
 });

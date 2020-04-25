@@ -11,6 +11,25 @@ let draftUploadPictureElement = document.getElementById('upload_picture');
 let draftUploadPictureBtnElement = document.getElementById('upload_picture_btn');
 let uploadProgressElement = document.getElementById('upload_progress');
 let previewTabElement = document.getElementById('preview_tab');
+let publishBtnElement = document.getElementById('publish_btn');
+
+publishBtnElement.addEventListener('click', e =>{
+    try {
+        let trimmedTitle = newPublicationNameElement.value.trim();
+        let trimmedContent = publicationContentTextareaElement.value.trim();
+        if (trimmedTitle.length < 5 || trimmedTitle.length > 55) {
+            throw new Error('Invalid title length');
+        }
+        if (trimmedContent.length < 5) {
+            throw new Error('Invalid content length');
+        }
+    } catch (err) {
+        M.toast({html: err.message});
+
+        e.preventDefault();
+        return false;
+    }
+});
 
 function deleteDraft(uuid) {
     console.log(`Delete ${uuid}`);
@@ -190,7 +209,6 @@ draftUploadPictureElement.addEventListener('change', (event) => {
         });
 
         xhr.addEventListener('load', e => {
-            M.toast({html: 'load'});
             let respObject = JSON.parse(xhr.responseText);
             if (respObject.success) {
                 publicationContentTextareaElement.value += `![${respObject.name}](${respObject.path} "${respObject.name}")`;
@@ -198,12 +216,12 @@ draftUploadPictureElement.addEventListener('change', (event) => {
         });
 
         xhr.addEventListener('error', e => {
-            M.toast({html: 'error'});
+            M.toast({html: 'Picture upload error'});
         });
 
         xhr.addEventListener('loadend', e => {
             enableControls(true);
-            M.toast({html: 'loadend'});
+            M.toast({html: 'Picture uploaded'});
         });
 
         xhr.send(formData);

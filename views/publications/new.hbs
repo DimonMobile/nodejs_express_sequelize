@@ -24,36 +24,40 @@
       {{>preloader preloader_size="small" preloader_id="draft_preloader"}}
     </div>
   </div>
-  <form id="newpost-form" action="/" method="post">
+  <form id="newpost-form" action="/publications/new" method="post">
     <div class="col s12">
       <div class="input-field">
-        <input id="new_publication_input" name="title" type="text" class="validate" value="{{publicationTitle}}">
+        <input minlength="5" maxlength="55" data-length="55" id="new_publication_input" name="title" type="text" class="validate" value="{{publicationTitle}}">
         <label for="new_publication_input">Publication name</label>
       </div>
     </div>
     <div class="col s12">
       <div class="input-field">
-        <textarea id="publication_content_textarea" name="content" class="materialize-textarea"
+        <textarea minlength="5" id="publication_content_textarea" name="content" class="materialize-textarea validate"
           data-length="120">{{publicationContent}}</textarea>
         <label for="publication_content_textarea">Markdown content</label>
       </div>
     </div>
     <input type="hidden" name="uuid" value="{{uuid}}" />
+    <div class="col s12">
+      <button id="publish_btn" class="btn waves-effect waves-light">Publish</button>
+    </div>
   </form>
 
   <div class="row valign-wrapper">
     <div class="col s12 l5">
       <button id="upload_picture_btn" class="btn btn-flat file-field">
         Upload picture
-        <input id="upload_picture" type="file"/>
+        <input id="upload_picture" type="file" />
       </button>
-      <button class="btn waves-effect waves-light">Publish</button>
     </div>
-    {{#if isDraft}}
     <div class="col s12 l7">
-      <blockquote>You are editing your draft, you can <a href="/publications/new">create new</a></blockquote>
+      {{#if isDraft}}
+      <blockquote>You are working with your draft, you can <a href="/publications/new">create new</a></blockquote>
+      {{else}}
+      <blockquote>You are working with new publication draft.</blockquote>
+      {{/if}}
     </div>
-    {{/if}}
   </div>
   <div class="row">
     <div class="col s12 progress">
