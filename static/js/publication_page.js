@@ -10,6 +10,7 @@ let draftPreviewElement = document.getElementById('draft_preview');
 let draftUploadPictureElement = document.getElementById('upload_picture');
 let draftUploadPictureBtnElement = document.getElementById('upload_picture_btn');
 let uploadProgressElement = document.getElementById('upload_progress');
+let previewTabElement = document.getElementById('preview_tab');
 
 function deleteDraft(uuid) {
     console.log(`Delete ${uuid}`);
@@ -112,13 +113,20 @@ newPublicationNameElement.addEventListener('change', (event) => {
 
 publicationContentTextareaElement.addEventListener('change', (event) => {
     autoSaveDraft();
-    let contentText = publicationContentTextareaElement.value;
-    draftPreviewElement.innerHTML = markdown.toHTML(contentText);
 });
 
 draftSaveBtnElement.addEventListener('click', (event) => {
     saveDraft();
 });
+
+previewTabElement.addEventListener('click', (event) => {
+    let contentText = publicationContentTextareaElement.value;
+    draftPreviewElement.innerHTML = markdown.toHTML(contentText);
+    let elements = draftPreviewElement.getElementsByTagName('img');
+    for (let imgElement of elements) {
+        imgElement.classList.add('responsive-img');
+    }
+})
 
 function uploadProgressSetIndeterminate() {
     uploadProgressElement.classList.remove('determinate');
@@ -183,6 +191,10 @@ draftUploadPictureElement.addEventListener('change', (event) => {
 
         xhr.addEventListener('load', e => {
             M.toast({html: 'load'});
+            let respObject = JSON.parse(xhr.responseText);
+            if (respObject.success) {
+                publicationContentTextareaElement.value += `![${respObject.name}](${respObject.path} "${respObject.name}")`;
+            }
         });
 
         xhr.addEventListener('error', e => {
