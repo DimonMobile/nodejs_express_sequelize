@@ -44,8 +44,22 @@ exports.postPublication = async function (req, res, next) {
         }
         let createdPub = await Publication.create({name: req.body.title, content: req.body.content, userId: req.session.userId});
         console.log(createdPub.dataValues.id);
-        res.json({success: 'ok', title: req.body.title, content: req.body.content, user: req.session.userNickname});
+        res.redirect(`/publications?id=${createdPub.dataValues.id}`);
     } catch (e) {
         res.write(e.message);
+    }
+}
+
+exports.getPublication = async function(req, res, next) {
+    console.log(req.query.id);
+    let publication = await Publication.findOne({where: {
+        id: req.query.id
+    }});
+    if (!publication) {
+        // TODO: redirect to 404
+        res.end("404 error");
+    } else {
+        let created = new Date(publication.dataValues.createdAt).toLocaleString();
+        res.render('publications/index', {title: 'Publication', publication: publication.dataValues, created: created, req: req, res: res});
     }
 }
