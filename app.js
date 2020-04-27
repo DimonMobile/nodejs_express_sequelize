@@ -1,6 +1,15 @@
 const express = require('express');
 const session = require('express-session');
-const exphbs = require('express-handlebars').create({extname: 'hbs'});
+const Handlebars = require('express-handlebars');
+const exphbs = Handlebars.create({
+    extname: 'hbs',
+    helpers: {
+        ifEquals: function (arg1, arg2, options) {
+            return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+        }
+    }
+});
+
 const router = require('./routes/main').router;
 
 const app = express();
@@ -9,9 +18,9 @@ const HOST_PROTO = 'http';
 const HOST_PORT = 3000;
 const HOST_ADDRESS = 'localhost';
 
-app.use(session({secret: 'mega secret'}));
+app.use(session({ secret: 'mega secret' }));
 app.use('/public', express.static('static'));
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 app.engine('hbs', exphbs.engine);
 app.set('view engine', 'hbs');
