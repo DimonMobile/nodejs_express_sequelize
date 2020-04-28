@@ -89,7 +89,10 @@
             <li><a class="btn-floating yellow darken-1 waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">format_quote</i></a></li>
             <li><a class="btn-floating green waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">publish</i></a></li>
             <li><a class="btn-floating blue waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">attach_file</i></a></li>
-            <li><a class="btn-floating brown waves-effect waves-light tooltipped" data-position="left" data-tooltip="Create new publication" href="/publications/new"><i class="material-icons">mode_edit</i></a></li>
+            {{#ifGreaterOrEqual req.session.userLevel 100}}
+            <li><a class="btn-floating blue waves-effect waves-light tooltipped" data-position="left" data-tooltip="Administration panel" href="/admin"><i class="material-icons">developer_board</i></a></li>
+            {{/ifGreaterOrEqual}}
+            <li><a class="btn-floating yellow waves-effect waves-light tooltipped" data-position="left" data-tooltip="Create new publication" href="/publications/new"><i class="material-icons">mode_edit</i></a></li>
         </ul>
     </div>
     {{/if}}

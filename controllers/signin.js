@@ -13,6 +13,7 @@ exports.signIn = async function(req, res, next) {
         req.session.userNickname = user.nick;
         req.session.userEmail = user.email;
         req.session.userAvatar = user.avatar;
+        req.session.userLevel = user.level;
         res.redirect('/');
     } else {
         messages = ['Wrong email or password, try again'];
