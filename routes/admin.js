@@ -6,4 +6,6 @@ router.get('/publications', (req, res, next) => controller.getPublicationsPage(r
 router.get('/users', (req, res, next) => controller.getUsersPage(req, res, next));
 router.get('/server', (req, res, next) => controller.getServerManagementPage(req, res, next));
 
+router.post('/publications', (req, res, next) => controller.applyPublicationAction(req, res, next));
+
 exports.router = router;

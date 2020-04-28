@@ -3,7 +3,7 @@ const Publication = Models.Publication;
 
 exports.getPanel = async function (req, res, next) {
     // TODO: check admin permissions
-    res.render('admin/index', {title: 'Admin panel', req: req, res:res});
+    res.render('admin/index', { title: 'Admin panel', req: req, res: res });
 }
 
 exports.getPublicationsPage = async function (req, res, next) {
@@ -12,9 +12,9 @@ exports.getPublicationsPage = async function (req, res, next) {
     let whereStrategy = {};
     if (req.query.filter) {
         if (req.query.filter === 'pending') {
-            whereStrategy = {reviewed: false, published: false};
+            whereStrategy = { reviewed: false, published: false };
         } else if (req.query.filter === 'published') {
-            whereStrategy = {published: true, reviewed: true};
+            whereStrategy = { published: true, reviewed: true };
         }
     }
 
@@ -28,7 +28,7 @@ exports.getPublicationsPage = async function (req, res, next) {
         order: [
             ['updatedAt', 'DESC']
         ],
-        limit: 5,
+        limit: 10,
         offset: offset
     });
     let pubs = [];
@@ -39,15 +39,47 @@ exports.getPublicationsPage = async function (req, res, next) {
             content: publication.dataValues.content,
         });
     }
-    res.render('admin/publications', {title: 'Publications administration', req: req, res: res, pubs: pubs});
+    res.render('admin/publications', { title: 'Publications administration', req: req, res: res, pubs: pubs });
 }
 
 exports.getUsersPage = async function (req, res, next) {
     // TODO: check admin permissions
     // TODO: implement
-    res.render('admin/users', {title: 'Users administration', req: req, res: res});
+    res.render('admin/users', { title: 'Users administration', req: req, res: res });
 }
 
 exports.getServerManagementPage = async function (req, res, next) {
-    res.render('admin/server', {title: 'Server management', req: req, res: res});
+    // TODO: check admin permissions
+    // TODO: implement
+    res.render('admin/server', { title: 'Server management', req: req, res: res });
+}
+
+exports.applyPublicationAction = async function (req, res, next) {
+    // TODO: check admin permissions
+    if (req.body.action === 'accept' || req.body.action === 'reject') {
+        let publicationId = parseInt(req.body.id);
+        let publication = await Publication.findOne({
+            where: {
+                id: publicationId,
+                published: false,
+                reviewed: false
+            }
+        });
+        if (publication) {
+            publication.reviewed = true;
+            if (req.body.action === 'accept') {
+                publication.published = true;
+            } else {
+                publication.published = false;
+            }
+            await publication.save();
+
+            res.redirect(`/publications?id=${publicationId}`);
+        } else {
+            res.end('Invalid publication');
+        }
+
+    } else {
+        res.end('Invalid action');
+    }
 }

@@ -1,6 +1,29 @@
 <script src="/public/js/markdown.js"></script>
 <textarea id="source" class="hide">{{publication.content}}</textarea>
 <div class="row">
+    {{#ifGreaterOrEqual req.session.userLevel 100}}
+    {{#unless publication.reviewed}}
+    {{! TODO: publication reviewed status check }}
+    <div class="card-panel col s12">
+        <span class="flow-text">This publication requires to be reviewed by administrator to be viewable by all. Please
+            review this post and pick one option below.</span>
+        <div class="valign-wrapper">
+            <form action="/admin/publications" method="POST">
+                <input type="hidden" name="id" value="{{publication.id}}"/>
+                <div class="input-field">
+                    <input class="btn waves-effect green waves-red" name="action" value="accept" type="submit" />
+                </div>
+            </form>
+            <form action="/admin/publications" method="POST">
+                <input type="hidden" name="id" value="{{publication.id}}"/>
+                <div class="input-field">
+                    <input class="btn waves-effect red waves-green" name="action" value="reject" type="submit" />
+                </div>
+            </form>
+        </div>
+    </div>
+    {{/unless}}
+    {{/ifGreaterOrEqual}}
     <div class="col s12">
         <span class="flow-text purple-text">{{publication.name}}</span>
         <span class="fow-text purple-text secondary-content">{{created}}</span>
@@ -10,7 +33,7 @@
                 {{author.nick}}
             </a>
         </span>
-        <hr/>
+        <hr />
         <div id="content" class="grey lighten-5">
         </div>
     </div>
