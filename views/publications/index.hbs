@@ -1,6 +1,17 @@
 <script src="/public/js/markdown.js"></script>
 <textarea id="source" class="hide">{{publication.content}}</textarea>
 <div class="row">
+    {{#unless publication.reviewed}}
+    <span class="flow-text">
+        Waiting for acceptance
+    </span>
+    {{else}} {{! reviewed }}
+    {{#unless publication.published}}
+    <span class="flow-text red white-text">
+        Rejected
+    </span>
+    {{/unless}}
+    {{/unless}}
     {{#ifGreaterOrEqual req.session.userLevel 100}}
     {{#unless publication.reviewed}}
     {{! TODO: publication reviewed status check }}
@@ -9,13 +20,13 @@
             review this post and pick one option below.</span>
         <div class="valign-wrapper">
             <form action="/admin/publications" method="POST">
-                <input type="hidden" name="id" value="{{publication.id}}"/>
+                <input type="hidden" name="id" value="{{publication.id}}" />
                 <div class="input-field">
                     <input class="btn waves-effect green waves-red" name="action" value="accept" type="submit" />
                 </div>
             </form>
             <form action="/admin/publications" method="POST">
-                <input type="hidden" name="id" value="{{publication.id}}"/>
+                <input type="hidden" name="id" value="{{publication.id}}" />
                 <div class="input-field">
                     <input class="btn waves-effect red waves-green" name="action" value="reject" type="submit" />
                 </div>
