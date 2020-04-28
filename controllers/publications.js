@@ -3,6 +3,7 @@ const uuid = require('uuid');
 const Models = require('../models/all');
 const PublicationDraft = Models.PublicationDraft;
 const Publication = Models.Publication;
+const User = Models.User;
 
 exports.getNewPage = async function (req, res, next) {
     // TODO: check permissions
@@ -55,11 +56,19 @@ exports.getPublication = async function(req, res, next) {
     let publication = await Publication.findOne({where: {
         id: req.query.id
     }});
+    let author = {};
     if (!publication) {
         // TODO: redirect to 404
         res.end("404 error");
     } else {
+        if (publication.userId != null) {
+            let user = await User.findOne({where: {id: publication.userId}});
+            if (user != null) {
+                author.id = user.id;
+                author.nick = user.nick;
+            }
+        }
         let created = new Date(publication.dataValues.createdAt).toLocaleString();
-        res.render('publications/index', {title: 'Publication', publication: publication.dataValues, created: created, req: req, res: res});
+        res.render('publications/index', {title: 'Publication', author: author, publication: publication.dataValues, created: created, req: req, res: res});
     }
 }

@@ -1,14 +1,18 @@
 <script src="/public/js/markdown.js"></script>
-{{#with publication}}
-<textarea id="source" class="hide">{{content}}</textarea>
+<textarea id="source" class="hide">{{publication.content}}</textarea>
 <div class="row">
     <div class="col s12">
-        <span class="flow-text purple-text">{{name}}</span>
-        <span class="fow-text purple-text secondary-content">{{../created}}</span>
+        <span class="flow-text purple-text">{{publication.name}}</span>
+        <span class="fow-text purple-text secondary-content">{{created}}</span>
+        <span class="fow-text purple-text">
+            by
+            <a href="/users/profile?id={{author.id}}">
+                {{author.nick}}
+            </a>
+        </span>
         <hr/>
         <div id="content" class="grey lighten-5">
         </div>
     </div>
 </div>
-{{/with}}
 <script src="/public/js/publication_index.js"></script>
