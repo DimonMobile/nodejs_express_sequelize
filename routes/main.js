@@ -21,4 +21,7 @@ router.use('/api/drafts', restDraftsRouter);
 const imagesRouter = require('./images').router;
 router.use('/images', imagesRouter);
 
+const adminRouter = require('./admin').router;
+router.use('/admin', adminRouter);
+
 exports.router = router;
