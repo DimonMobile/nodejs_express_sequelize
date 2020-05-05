@@ -15,8 +15,8 @@ let comment = db.define('comment', {
         unique: false,
         fields: ['userId'] // foreign key
     }, {
-        unique: true,
-        fields: ['uuid']
+        unique: false,
+        fields: ['publicationId'] // foreign key
     }]
 });
 
