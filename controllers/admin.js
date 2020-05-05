@@ -1,5 +1,8 @@
 const Models = require('../models/all');
 const Publication = Models.Publication;
+const User = Models.User;
+
+const os = require('os')
 
 exports.getPanel = async function (req, res, next) {
     // TODO: check admin permissions
@@ -44,14 +47,51 @@ exports.getPublicationsPage = async function (req, res, next) {
 
 exports.getUsersPage = async function (req, res, next) {
     // TODO: check admin permissions
-    // TODO: implement
-    res.render('admin/users', { title: 'Users administration', req: req, res: res });
+    let offset = 0;
+    if (req.query.offset) {
+        offset = parseInt(req.query.offset);
+    }
+
+    let users = await User.findAll({
+        order: [
+            ['updatedAt', 'DESC']
+        ],
+        limit: 10,
+        offset: offset
+    });
+    let usrs = [];
+    for (let user of users) {
+        usrs.push({
+            id: user.dataValues.id,
+            nick: user.dataValues.nick,
+        });
+    }
+    res.render('admin/users', { title: 'Users administration', req: req, res: res, users: usrs });
 }
 
 exports.getServerManagementPage = async function (req, res, next) {
     // TODO: check admin permissions
-    // TODO: implement
-    res.render('admin/server', { title: 'Server management', req: req, res: res });
+    let cpudata = [];
+    let avgCpu = 0.0;
+
+    for (let cpu of os.cpus())
+    {
+        let cpuPercentage = 100 - ((cpu.times.idle / (cpu.times.sys + cpu.times.user + cpu.times.idle)) * 100.0);
+        cpudata.push({
+            name: cpu.model,
+            speed: cpu.speed,
+            avg: cpuPercentage.toFixed(2)
+        });
+        avgCpu += cpuPercentage;
+    }
+    avgCpu /= os.cpus().length;
+
+    let memory = {
+        total: (os.totalmem() / (1024 * 1024)).toFixed(2),
+        free: (os.freemem() / (1024 * 1024)).toFixed(2),
+        avg: (100 - ((os.freemem() / os.totalmem()) * 100.0)).toFixed(2)
+    }
+    res.render('admin/server', { title: 'Server management', req: req, res: res, cpudata: cpudata, memory: memory, avgCpu: avgCpu });
 }
 
 exports.applyPublicationAction = async function (req, res, next) {

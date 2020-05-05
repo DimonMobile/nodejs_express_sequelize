@@ -1,1 +1,52 @@
-<p>Server management</p>
+{{>admin_breadcrumb breadcrumb_section="Server management"}}
+<h5>Server management</h5>
+
+<div class="row">
+
+    <div class="col s12">
+
+        <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+                <span class="card-title">RAM usage</span>
+                <p>Free: {{memory.free}} MB</p>
+                <p>Total: {{memory.total}} MB</p>
+                <span class="secondary-content">{{memory.avg}}%</span>
+                <div class="progress">
+                    <div class="determinate" style="width: {{memory.avg}}%"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12">
+        <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+                <span class="card-title">CPU usage</span>
+                <div class="progress">
+                    <div class="determinate" style="width: {{avgCpu}}%"></div>
+                </div>
+                <table>
+                    <thead>
+                        <th>Name</th>
+                        <th>Speed</th>
+                        <th>Usage %</th>
+                    </thead>
+                    <tbody>
+                        {{#each cpudata}}
+                        <tr>
+                            <td>{{this.name}}</td>
+                            <td>{{this.speed}}</td>
+                            <td>{{this.avg}}
+                                <div class="progress">
+                                    <div class="determinate" style="width: {{this.avg}}%"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
