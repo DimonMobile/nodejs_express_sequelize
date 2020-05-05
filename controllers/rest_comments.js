@@ -54,7 +54,21 @@ exports.getComments = async function (req, res, next) {
 
 exports.postComment = async function (req, res, next) {
     try {
+        if (!req.session.userId) {
+            throw new Error('Unauthorized access');
+        }
 
+        let content = req.body.content.trim();
+
+        if (content.length < 10 || content.length > 2048) {
+            throw new Error('Content length so strange');
+        }
+        await Comment.create({
+            userId: req.session.userId,
+            publicationId: req.body.id,
+            content: content
+        });
+        res.json({success: true});
     } catch (e) {
         res.json({ error: e.message });
     }

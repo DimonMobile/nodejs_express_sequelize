@@ -1,5 +1,6 @@
 <script src="/public/js/markdown.js"></script>
 <textarea id="source" class="hide">{{publication.content}}</textarea>
+<input type="hidden" id="publicationId" value="{{publication.id}}" />
 <div class="row">
     {{#unless publication.reviewed}}
     <span class="flow-text">
@@ -49,4 +50,41 @@
         </div>
     </div>
 </div>
+{{#if publication.published}}
+<template id="commentTemplate">
+    <li class="collection-item avatar">
+        <img src="" alt="" class="circle">
+        <a href=""><span class="title">Title</span></a>
+        <p>First Line <br>
+            Second Line
+        </p>
+        {{!-- <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a> --}}
+    </li>
+</template>
+
+{{#if req.session.userId}}
+<div class="row">
+    <form id="newCommentForm">
+        <div class="input-field">
+            <textarea placeholder="Your comment here" name="content" class="materialize-textarea"></textarea>
+        </div>
+        <input name="id" type="hidden" value="{{publication.id}}"/>
+        <button id="addComentBtn" class="btn waves-effect waves-light">Send</button>
+    </form>
+</div>
+{{/if}}
+
+<div class="row">
+    <div class="col s12">
+        <ul class="collection" id="commentsSection">
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 center-align">
+        <button id="fetchCommentsBtn" class="btn waves-effect waves-light">Fetch more</button>
+        {{>preloader preloader_size="big" preloader_id="commentsPreloader"}}
+    </div>
+</div>
+{{/if}}
 <script src="/public/js/publication_index.js"></script>
