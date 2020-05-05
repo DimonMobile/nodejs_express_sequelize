@@ -7,25 +7,24 @@ const Comment = require('./comment')
 User.hasMany(PublicationDraft, {
     foreignKey: 'userId'
 });
-PublicationDraft.belongsTo(User);
+//PublicationDraft.belongsTo(User);
 
 // Publications
 User.hasMany(Publication, {
     foreignKey: 'userId'
 });
-Publication.belongsTo(User);
 
-// Comments
-User.hasMany(Comment, {
-    foreignKey: 'userId'
+Comment.belongsTo(User, {
+    foreignKey: 'userId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
 });
 
-Publication.hasMany(Comment, {
-    foreignKey: 'publicationId'
+Comment.belongsTo(Publication, {
+    foreignKey: 'publicationId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
 });
-
-Comment.belongsTo(User);
-Comment.belongsTo(Comment);
 
 // Exports
 exports.PublicationDraft = PublicationDraft;

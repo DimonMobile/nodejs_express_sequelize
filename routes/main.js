@@ -15,13 +15,17 @@ router.use('/users', usersRouter);
 const publicationsRouter = require('./publications').router;
 router.use('/publications', publicationsRouter);
 
-const restDraftsRouter = require('./rest_drafts').router;
-router.use('/api/drafts', restDraftsRouter);
-
 const imagesRouter = require('./images').router;
 router.use('/images', imagesRouter);
 
 const adminRouter = require('./admin').router;
 router.use('/admin', adminRouter);
+
+// REST
+const restDraftsRouter = require('./rest_drafts').router;
+router.use('/api/drafts', restDraftsRouter);
+
+const restCommentsRouter = require('./rest_comments').router;
+router.use('/api/comments', restCommentsRouter);
 
 exports.router = router;
