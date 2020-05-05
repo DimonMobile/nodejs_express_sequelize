@@ -26,9 +26,6 @@ exports.getComments = async function (req, res, next) {
             include: [{
                 model: User,
                 required: true
-            },{
-                model: Publication,
-                required: true
             }],
             limit: 10,
             offset: offset
@@ -38,8 +35,12 @@ exports.getComments = async function (req, res, next) {
         for (let comment of comments) {
             resultArray.push({
                 createdAt: comment.dataValues.createdAt,
-                userId: comment.dataValues.userId,
-                userNickname: comment.dataValues.nick
+                content: comment.dataValues.content,
+                user: {
+                    id: comment.dataValues.userId,
+                    nick: comment.user.dataValues.nick,
+                    avatar: comment.user.dataValues.avatar
+                }
             });
         }
 
