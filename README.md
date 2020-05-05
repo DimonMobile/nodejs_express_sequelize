@@ -5,7 +5,7 @@ Install packages
 > npm install
 
 Create database
-> npm migrate
+> npm run migrate
 
 Run
 > npm start
