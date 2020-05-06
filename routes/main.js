@@ -28,4 +28,7 @@ router.use('/api/drafts', restDraftsRouter);
 const restCommentsRouter = require('./rest_comments').router;
 router.use('/api/comments', restCommentsRouter);
 
+const restFeedRouter = require('./rest_feed').router;
+router.use('/api/feed', restFeedRouter);
+
 exports.router = router;
