@@ -13,13 +13,11 @@ exports.getPublicationsPage = async function (req, res, next) {
     // TODO: check admin persmissions
 
     let whereStrategy = {};
-    if (req.query.filter) {
-        if (req.query.filter === 'pending') {
-            whereStrategy = { reviewed: false, published: false };
-        } else if (req.query.filter === 'published') {
-            whereStrategy = { published: true, reviewed: true };
-        }
-    }
+    if (!req.query.filter || req.query.filter === 'pending') {
+        whereStrategy = { reviewed: false, published: false };
+    } else if (req.query.filter === 'published') {
+        whereStrategy = { published: true, reviewed: true };
+    } // else all
 
     let offset = 0;
     if (req.query.offset) {
