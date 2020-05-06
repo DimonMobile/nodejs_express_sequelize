@@ -10,8 +10,10 @@ User.hasMany(PublicationDraft, {
 //PublicationDraft.belongsTo(User);
 
 // Publications
-User.hasMany(Publication, {
-    foreignKey: 'userId'
+Publication.belongsTo(User, {
+    foreignKey: 'userId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
 });
 
 Comment.belongsTo(User, {
