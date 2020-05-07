@@ -1,6 +1,7 @@
 const Models = require('../models/all');
 const User = Models.User;
 const Publication = Models.Publication;
+const Message = Models.Message;
 
 exports.getProfilePage = async function(req, res, next) {
     if (!req.query.id) {
@@ -88,5 +89,38 @@ exports.getMessagesPage = async function (req, res, next) {
         res.statusCode = 401;
         return await res.end('Unauthorized');
     }
-    res.render('users/messages', {req: req, res: res, isOwner: true});
+    let dialogs = await Message.findAll({
+        where: {
+            toUserId: req.session.userId
+        },
+        group: 'fromUserId',
+        include: [{
+            model: User,
+            as: 'sourceUser',
+            required: true
+        },{
+            model: User,
+            as: 'targetUser',
+            required: true
+        }],
+        order: [
+            ['createdAt', 'DESC']
+        ]
+    });
+    let diags = [];
+    for (let dialog of dialogs) {
+        console.log(dialog.sourceUser.nick);
+        console.log(`From: ${dialog.dataValues.fromUserId}, to: ${dialog.dataValues.toUserId} - ${dialog.dataValues.content}`);
+        diags.push({
+            id: dialog.dataValues.id,
+            content: dialog.dataValues.content,
+            createdAt: dialog.dataValues.createdAt.toLocaleString(),
+            from: {
+                id: dialog.sourceUser.id,
+                nick: dialog.sourceUser.nick,
+                avatar: dialog.sourceUser.avatar
+            }
+        });
+    }
+    res.render('users/messages', {req: req, res: res, isOwner: true, dialogs: diags});
 }
