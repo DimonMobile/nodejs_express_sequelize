@@ -3,6 +3,14 @@ const User = Models.User;
 const Publication = Models.Publication;
 
 exports.getProfilePage = async function(req, res, next) {
+    if (!req.query.id) {
+        if (req.session.userId) {
+            req.query.id = req.session.userId;
+        } else {
+            res.statusCode = 401;
+            return await res.end("Unauthorized access");
+        }
+    }
     let user = await User.findOne({where: {id: req.query.id}});
     let isOwner = false;
     if (user && req.session && user.dataValues.id === req.session.userId)
@@ -19,6 +27,16 @@ exports.getPublicationsPage = async function(req, res, next) {
         page = parseInt(req.query.page)
         offset = (page - 1) * itemsOnPage;
     }
+
+    if (!req.query.id) {
+        if (req.session.userId) {
+            req.query.id = req.session.userId;
+        } else {
+            res.statusCode = 401;
+            return await res.end("Unauthorized access");
+        }
+    }
+
     let user = await User.findOne({where: {id: req.query.id}});
     let isOwner = false;
     if (user && req.session && user.dataValues.id === req.session.userId)
@@ -63,4 +81,12 @@ exports.getPublicationsPage = async function(req, res, next) {
         page: page,
         nextPage: nextPage,
         prevPage: prevPage });
+}
+
+exports.getMessagesPage = async function (req, res, next) {
+    if (!req.session.userId) {
+        res.statusCode = 401;
+        return await res.end('Unauthorized');
+    }
+    res.render('users/messages', {req: req, res: res, isOwner: true});
 }
