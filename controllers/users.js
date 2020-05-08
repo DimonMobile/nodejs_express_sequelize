@@ -3,6 +3,11 @@ const User = Models.User;
 const Publication = Models.Publication;
 const Message = Models.Message;
 
+
+exports.logout = async function (req, res, next) {
+    req.session.destroy();
+    res.redirect('/');
+}
 exports.getProfilePage = async function (req, res, next) {
     if (!req.query.id) {
         if (req.session.userId) {
