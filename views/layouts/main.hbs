@@ -55,14 +55,10 @@
                             class="white-text email">{{req.session.userEmail}}</span></a>
                 </div>
             </li>
-            <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
-            <li><a href="#!">Second Link</a></li>
             <li><a href="/" class="waves-effect">Feed</a></li>
             <li>
                 <div class="divider"></div>
             </li>
-            <li><a class="subheader">Subheader</a></li>
-            <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
             {{/unless}}
         </ul>
     </header>
@@ -88,10 +84,10 @@
             <i class="large material-icons">call_to_action</i>
         </a>
         <ul>
-            <li><a class="btn-floating red waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">insert_chart</i></a></li>
+            {{!-- <li><a class="btn-floating red waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">insert_chart</i></a></li>
             <li><a class="btn-floating yellow darken-1 waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">format_quote</i></a></li>
             <li><a class="btn-floating green waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">publish</i></a></li>
-            <li><a class="btn-floating blue waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">attach_file</i></a></li>
+            <li><a class="btn-floating blue waves-effect waves-light tooltipped disabled" data-position="left" data-tooltip="//TODO"><i class="material-icons">attach_file</i></a></li>--}}
             {{#ifGreaterOrEqual req.session.userLevel 100}}
             <li><a class="btn-floating blue waves-effect waves-light tooltipped" data-position="left" data-tooltip="Administration panel" href="/admin"><i class="material-icons">developer_board</i></a></li>
             {{/ifGreaterOrEqual}}
