@@ -123,7 +123,7 @@ exports.getMessagesPage = async function (req, res, next) {
             }
         });
     }
-    res.render('users/messages', { req: req, res: res, isOwner: true, dialogs: diags });
+    res.render('users/messages', {title: 'Messages', req: req, res: res, isOwner: true, dialogs: diags });
 }
 
 exports.getSendMessagePage = async function (req, res, next) {
@@ -146,7 +146,7 @@ exports.getSendMessagePage = async function (req, res, next) {
             throw new Error('No such user found');
         }
 
-        res.render('users/message_send', { req: req, res: res, isOwner: true, toUser: toUser.dataValues });
+        res.render('users/message_send', { title: 'Messages', req: req, res: res, isOwner: true, toUser: toUser.dataValues });
     } catch (e) {
         res.statusCode = 401;
         res.end("Unauthorized access\n" + e.message);
@@ -155,10 +155,29 @@ exports.getSendMessagePage = async function (req, res, next) {
 
 exports.sendMessage = async function (req, res, next) {
     try {
-        if (!req.body.content || !req.body.to) {
-            // TODO: throw exception
+        if (!req.session.userId) {
+            throw new Error('Unauthorized access');
         }
-        // TODO: implement
+
+        if (!req.body.content || !req.body.to) {
+            throw new Error();
+        }
+
+        let content = req.body.content.trim();
+        if (content.length < 5 || content.length > 1024) {
+            throw new Error();
+        }
+
+        let toUser = await User.findOne({where: {
+            id: parseInt(req.body.to)
+        }});
+
+        if (!toUser) {
+            throw new Error('No such user');
+        }
+
+        await Message.create({toUserId: toUser.id, fromUserId: req.session.userId, content: content});
+        res.redirect('/users/messages');
     } catch (e) {
         res.statusCode = 401;
         res.end("Unauthorized access\n" + e.message);

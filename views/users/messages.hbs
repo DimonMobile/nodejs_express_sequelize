@@ -9,7 +9,7 @@
             <ul class="collection">
                 {{#each dialogs}}
                 <li class="collection-item avatar">
-                    <a href="#profile">
+                    <a href="/users/profile?id={{this.from.id}}">
                         <img src="{{this.from.avatar}}" alt="" class="circle">
                         <span class="title">{{this.from.nick}}</span>
                     </a>
