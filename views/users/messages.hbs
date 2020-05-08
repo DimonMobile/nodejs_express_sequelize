@@ -10,10 +10,12 @@
                 {{#each dialogs}}
                 <li class="collection-item avatar">
                     <a href="#profile">
-                    <img src="{{this.from.avatar}}" alt="" class="circle">
-                    <span class="title">{{this.from.nick}}</span>
+                        <img src="{{this.from.avatar}}" alt="" class="circle">
+                        <span class="title">{{this.from.nick}}</span>
                     </a>
-                    <a href="#messaga"><p>{{this.content}}</p></a>
+                    <a href="/users/messages/sender?to={{this.from.id}}">
+                    <p>{{this.content}}</p>
+                    </a>
                     <span class="secondary-content">{{this.createdAt}}</span>
                 </li>
                 {{/each}}

@@ -3,7 +3,7 @@ const User = Models.User;
 const Publication = Models.Publication;
 const Message = Models.Message;
 
-exports.getProfilePage = async function(req, res, next) {
+exports.getProfilePage = async function (req, res, next) {
     if (!req.query.id) {
         if (req.session.userId) {
             req.query.id = req.session.userId;
@@ -12,15 +12,15 @@ exports.getProfilePage = async function(req, res, next) {
             return await res.end("Unauthorized access");
         }
     }
-    let user = await User.findOne({where: {id: req.query.id}});
+    let user = await User.findOne({ where: { id: req.query.id } });
     let isOwner = false;
     if (user && req.session && user.dataValues.id === req.session.userId)
         isOwner = true;
 
-    res.render('users/profile', {title: 'User profile', req: req, res: res, user: user ? user.dataValues : null, isOwner: isOwner });
+    res.render('users/profile', { title: 'User profile', req: req, res: res, user: user ? user.dataValues : null, isOwner: isOwner });
 }
 
-exports.getPublicationsPage = async function(req, res, next) {
+exports.getPublicationsPage = async function (req, res, next) {
     const itemsOnPage = 10;
     let offset = 0;
     let page = 1;
@@ -38,7 +38,7 @@ exports.getPublicationsPage = async function(req, res, next) {
         }
     }
 
-    let user = await User.findOne({where: {id: req.query.id}});
+    let user = await User.findOne({ where: { id: req.query.id } });
     let isOwner = false;
     if (user && req.session && user.dataValues.id === req.session.userId)
         isOwner = true;
@@ -46,7 +46,7 @@ exports.getPublicationsPage = async function(req, res, next) {
     let publications = await Publication.findAndCountAll({
         limit: itemsOnPage,
         offset: offset,
-        where: {userId: user.dataValues.id},
+        where: { userId: user.dataValues.id },
         order: [
             ['createdAt', 'DESC']
         ]
@@ -81,7 +81,8 @@ exports.getPublicationsPage = async function(req, res, next) {
         pagination: pages,
         page: page,
         nextPage: nextPage,
-        prevPage: prevPage });
+        prevPage: prevPage
+    });
 }
 
 exports.getMessagesPage = async function (req, res, next) {
@@ -93,12 +94,12 @@ exports.getMessagesPage = async function (req, res, next) {
         where: {
             toUserId: req.session.userId
         },
-        group: 'fromUserId',
+        //group: 'fromUserId',
         include: [{
             model: User,
             as: 'sourceUser',
             required: true
-        },{
+        }, {
             model: User,
             as: 'targetUser',
             required: true
@@ -122,5 +123,44 @@ exports.getMessagesPage = async function (req, res, next) {
             }
         });
     }
-    res.render('users/messages', {req: req, res: res, isOwner: true, dialogs: diags});
+    res.render('users/messages', { req: req, res: res, isOwner: true, dialogs: diags });
+}
+
+exports.getSendMessagePage = async function (req, res, next) {
+    try {
+        if (!req.session.userId) {
+            throw new Error();
+        }
+
+        if (!req.query.to) {
+            throw new Error('No to param');
+        }
+
+        let toUserId = parseInt(req.query.to);
+        let toUser = await User.findOne({
+            where: {
+                id: toUserId
+            }
+        });
+        if (!toUser) {
+            throw new Error('No such user found');
+        }
+
+        res.render('users/message_send', { req: req, res: res, isOwner: true, toUser: toUser.dataValues });
+    } catch (e) {
+        res.statusCode = 401;
+        res.end("Unauthorized access\n" + e.message);
+    }
+}
+
+exports.sendMessage = async function (req, res, next) {
+    try {
+        if (!req.body.content || !req.body.to) {
+            // TODO: throw exception
+        }
+        // TODO: implement
+    } catch (e) {
+        res.statusCode = 401;
+        res.end("Unauthorized access\n" + e.message);
+    }
 }
