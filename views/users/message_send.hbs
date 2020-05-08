@@ -25,15 +25,21 @@
         </div>
         <div class="row">
             <form class="col s12" method="POST" action="/users/messages">
-                <input type="hidden" name="to" value="{{toUser.id}}"/>
+                <input id="messageToElement" type="hidden" name="to" value="{{toUser.id}}"/>
                 <div class="row">
                     <div class="input-field col s12">
                         <textarea id="messageTextarea" name="content" class="materialize-textarea validate" minlength="5" maxlength="1024"></textarea>
                         <label for="messageTextarea">Message</label>
                     </div>
                 </div>
-                <button class="btn waves-effect waves-light">Send</button>
+                <button id="sendMsgBtn" class="btn waves-effect waves-light">Send</button>
             </form>
         </div>
     </div>
+    <script>
+        let sendBtn = document.getElementById('sendMsgBtn');
+        sendBtn.addEventListener('click', e => {
+            sendWSMessage(parseInt(messageToElement.value), document.getElementById('messageTextarea').value);
+        });
+    </script>
 </div>

@@ -12,6 +12,9 @@
 </head>
 
 <body>
+    {{#if req.session.userId}}
+    <input type="hidden" id="globalUserId" value="{{req.session.userId}}"/>
+    {{/if}}
     <header>
         <nav>
             <div class="nav-wrapper teal">
@@ -106,7 +109,9 @@
         M.toast({ html: '{{this}}' });
     </script>
     {{/each}}
-
+    {{#if req.session.userId}}
+    <script src="/public/js/common.js"></script>
+    {{/if}}
 </body>
 
 </html>

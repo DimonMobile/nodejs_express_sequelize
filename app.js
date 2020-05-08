@@ -1,6 +1,8 @@
 const express = require('express');
 const session = require('express-session');
 const Handlebars = require('express-handlebars');
+const WebSocketServer = require('./config/websocket');
+
 const exphbs = Handlebars.create({
     extname: 'hbs',
     helpers: {
