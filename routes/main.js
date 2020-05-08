@@ -18,8 +18,9 @@ router.use('/publications', publicationsRouter);
 const imagesRouter = require('./images').router;
 router.use('/images', imagesRouter);
 
+const adminMiddleware = require('../middlewares/permissions').adminPermissionsCheckerMiddleware;
 const adminRouter = require('./admin').router;
-router.use('/admin', adminRouter);
+router.use('/admin', adminMiddleware, adminRouter);
 
 // REST
 const restDraftsRouter = require('./rest_drafts').router;
