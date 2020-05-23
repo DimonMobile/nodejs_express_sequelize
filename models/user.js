@@ -20,7 +20,7 @@ let user = db.define('user', {
         allowNull: false
     },
     level: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 1
     },

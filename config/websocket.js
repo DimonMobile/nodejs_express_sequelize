@@ -1,5 +1,5 @@
 let WebSocket = require('ws')
-let wsServer = new WebSocket.Server({port: 5000, path: '/'});
+let wsServer = new WebSocket.Server({ port: 5000, path: '/' });
 let url = require('url');
 
 wsServer.on('connection', (ws, req) => {
@@ -14,9 +14,9 @@ wsServer.on('connection', (ws, req) => {
     ws.on('message', (message) => {
         let messageObject = JSON.parse(message);
         wsServer.clients.forEach(client => {
-           if (client.userId === messageObject.to) {
-               client.send(messageObject.content);
-           }
+            if (client.userId === messageObject.to) {
+                client.send(messageObject.content);
+            }
         });
     });
 });
