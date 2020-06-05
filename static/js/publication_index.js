@@ -69,6 +69,12 @@ if (commentsSection) {
         let formElement = document.getElementById("newCommentForm");
 
         addCommentBtn.addEventListener('click', e => {
+            let textAreaElement = document.getElementById('commentTextarea');
+            if (textAreaElement.value.trim().length < 10) {
+                M.toast({html: "Minimum comment length is 10"});
+                e.preventDefault();
+                return false;
+            }
             let formData = new URLSearchParams(new FormData(formElement)).toString();
             formElement.reset();
             e.preventDefault();
